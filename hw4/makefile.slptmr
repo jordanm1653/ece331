@@ -1,0 +1,14 @@
+TARGET=slptmr
+OBJS=slptmr.o
+CFLAGS=-Wall -g
+LDFLAGS=-lbcm2835
+.PHONY: clean all
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) -o $(TARGET) $(OBJS) $(LDFLAGS)
+
+clean:
+	rm -f $(TARGET) $(OBJS)
+

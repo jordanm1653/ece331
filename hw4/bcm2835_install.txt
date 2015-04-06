@@ -1,0 +1,15 @@
+INSTALLING THE BCM 2835 C LIBRARY ON RASPBERRY PI
+Jordan Millington
+
+1.	Downloading the Library
+	----------------------------------------
+	+	Find the latest library at http://www.airspayce.com/mikem/bcm2835/
+	+	cd to the home directory
+			# cd
+	+	Download the library
+			# wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.38.tar.gz
+
+2.	Extract the library
+	----------------------------------------
+	+	Unzip the downloaded file changing xx
+			# tar zxvf bcm2835-1.38.tar.gz

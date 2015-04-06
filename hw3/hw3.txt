@@ -1,0 +1,83 @@
+===============================================================================
+Jordan Millington
+Homework 3
+ECE 331
+Due: 02/05/2015
+===============================================================================
+DISCLAIMER: Definitely not my proudest work...
+
+3.1
+--------------------
+A) \b0b[01]*\b 
+B) \b[1-9]*[02468]+\b
+C) \b[0-9]?\.[0-9]+[eE][-+]?[0-9]{16}
+D) \b(100|[0-9]{1,2})\b
+
+3.2
+--------------------
+\b(\$(0+|[1-9]?)\.[0-9]{2})\b
+
+3.3
+--------------------
+A comment in C
+
+3.4
+--------------------
+
+3.5
+--------------------
+
+3.6
+--------------------
+/*
+ * Jordan Millington 02/04/2015
+ *
+ * swa.c
+ *
+ * read unsigned integer from stdin values 0-255 then compute a sliding
+ * window average on data stream with a window of 8. Print average values
+ *
+ */
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdint.h>
+
+int main(int argc, char *argv[])
+{
+	int window[8] = {0};
+	int i = 0;
+	double avg = 0;
+	unsigned int num = 0;
+	int nwin = 8;
+	double sum = 0;
+	int count = 0;
+	FILE *fd = NULL;
+
+	fd = fopen("nums.txt","r");
+	if(fd<0){
+		perror("open");
+		exit (EXIT_FAILURE);
+	}
+	while (!feof(fd)){
+		fscanf(fd,"%u",&num);
+		if (count < nwin){
+			window[count] = num;
+		}
+		else{
+			for (i = 0; i < nwin; i++){
+				sum = sum + window[i];
+			}
+			avg = sum/(double)nwin;
+			printf("%f\n",avg);
+			sum = 0;
+			window[count%nwin] = num;
+		}
+		count++;
+	}
+	fclose(fd);
+	return 0;
+}

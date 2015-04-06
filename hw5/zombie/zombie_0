@@ -1,0 +1,33 @@
+/*
+ * zombie.c
+ *
+ * Program to make a zombie process
+ *
+ * Jordan Millington
+ */
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<unistd.h>
+#include<signal.h>
+#include<errno.h>
+
+// void usage(void);
+
+int main(int argc, char *argv[])
+{
+	pid_t child_pid;
+	printf("The main program process ID is: %d\n", (int) getpid());
+	child_pid = fork();
+	if (child_pid != 0){
+		printf("This is the parent process with ID: %d\n",
+		       (int) getpid());
+		printf("The child's proccess ID is: %d\n", (int) child_pid );
+	}
+	else{
+		printf("This is the child proccess, with ID: %d\n",
+		       (int) getpid());
+	}
+	return EXIT_SUCCESS;
+}

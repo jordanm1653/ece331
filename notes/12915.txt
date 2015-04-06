@@ -1,0 +1,12 @@
+REGEX
+	find phone number
+	+### ([###])- ###- #####
+	(/+[0-9]{3}[ -]?[)]]?[ -]?)?[0-9]{3}[ -]?[0-9]{4}
+PERL
+3 Types
+scalar
+lists
+hashes
+
+Typical script
+	#!/usr/bin/perl/

@@ -1,0 +1,31 @@
+aptitude search 'raspberrypi*'
+aptitude search 'linux-*'
+aptitude search 'linux-*' | less
+sudo apt-get remove raspberrypi-bootloader
+dpkg -l 'raspberrypi*'
+dpkg -l 'libraspberrypi*'
+sudo rpi-update
+cd /usr/src
+sudo git clone --depth=1 git://github.com/raspberrypi/linux.git
+make mrproper
+cd
+mkdir tmp
+cd tmp
+sudo zcat /proc/config.gz > .config
+sudo cp .config /usr/src/linux
+cd /usr/src/linux
+sudo make oldconfig
+sudo make menuconfig
+sudo make
+sudo make modules
+sudo make modules_install
+cd /usr/src/linux/arch/arm
+ls
+cd Image
+ls
+cp zImage /boot/kernel.img
+find '*.dtb'
+find -name '*.dtb'
+cd linux/arch/arm/boot/dts
+find -name '*.dtb' -exec cp '{}' /boot/ \;
+sudo shutdown -r now

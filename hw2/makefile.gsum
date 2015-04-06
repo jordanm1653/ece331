@@ -1,0 +1,13 @@
+#gsum.c makefile
+#declare variables
+CC=gcc
+CFLAGS=-Wall -g
+SOURCES=gsum.c
+EXECUTABLE=gsum
+
+$(EXECUTABLE): $(SOURCES)
+	$(CC) $(CFLAGS) $^ -o $@
+
+
+clean:
+	$(RM) $(EXECUTABLE)

@@ -1,0 +1,146 @@
+===============================================================================
+Jordan Millington
+Homework 4
+ECE 331
+Due: 02/12/2015
+===============================================================================
+4.1
+--------------------
+#!/usr/bin/perl
+# parser.pl
+# Jordan Millington
+#
+# parses a file with a known format to generate a matlab readable data file
+# of time and voltages
+
+use strict;
+use warnings;
+
+open(IN, "<", $ARGV[0])
+	 or die "Cannot open file: $!\n";
+open(OUT, ">", $ARGV[1])
+	or die "Cannot opne file: $!\n";
+
+while(<IN>){
+	chomp;
+	my $x = $_;
+	$x =~ s/,/ /g;
+	print OUT "$x\n" if(/^[-+]?[0-9].*/);
+}
+close(IN);
+close(OUT);
+
+4.2
+--------------------
+#!/usr/bin/perl
+# mscripter.pl
+# generates a matlab script file to load oscope data and plot 
+# Jordan Millington
+
+use strict;
+use warnings;
+
+open(OUT, '>', $ARGV[0])
+	or die "Cannot open file: $!\n";
+
+print OUT "\# Jmillington scripting file\n\n";
+print OUT	"clear;clc;\n\n".	
+		"data = load(\'scope.txt\');\n".
+		"t = data(:,1);\n".
+		"ch1 = data(:,2);\n".
+		"ch2 = data(:,4);\n".
+		"plot(t,ch1,t,ch1_pk,t,ch2,t,ch2_pk);\n".
+		"xlabel = (\"Time (seconds)\");\n".
+		"ylabel = (\"Voltage (volts)\");\n";
+
+4.3
+--------------------
+#!/usr/bin/perl
+while (<*>) {push @{$files{((stat $_ )[1])}}, $_;}
+foreach $key (sort keys %files){
+	my @fnm = @{$files{$key}};
+	printf "Inode %s files: %s\n",$key,(join ', ',sort @fnm) if $#fnm >0;
+}
+
+4.4
+--------------------
+Did not allocate time wisely to complete this
+
+4.5
+--------------------
+# sudo apt-get install ocatve
+
+4.6
+--------------------
+INSTALLING THE BCM 2835 C LIBRARY ON RASPBERRY PI
+Jordan Millington
+
+1.	Downloading the Library
+	+ Find the latest library at http://www.airspayce.com/mikem/bcm2835/
+	+ cd to the home directory
+		# cd
+	+ Download the library
+	  # wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.38.tar.gz
+
+2.	Extract the library
+	+ Unzip the downloaded file changing xx
+	  # tar zxvf bcm2835-1.38.tar.gz
+
+3. 	CONFIGURE
+	  # ./configure
+
+4.	MAKE
+	 # make
+	 # sudo make check
+	 # sudo make install
+4.7
+--------------------
+/*
+ * slptmr.c
+ *
+ * Print the seconds system time elapsed during a call to sleep(1)
+ *
+ * Jordan Millington
+ * 02/10/2015
+ *
+ * Compiling:
+ *	must link -lbcm2835
+ *	gcc -lbcm2835 -Wall -g slptmr.c -o slptmr
+ */
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdint.h>
+#include<bcm2835.h>
+#include<unistd.h>
+
+int main(int argc, char *argv[])
+{
+	/* Initialize bcm2835 library and check for errors */
+	if(!bcm2835_init()){
+		perror("bcm2835");
+		exit(EXIT_FAILURE);
+	}
+
+	/* Declare Variables */
+	double syshz = 1000000;
+	double systimestart = 0;
+	double systimeend = 0;
+	double elapsed_time = 0;
+
+	/* get system time
+	 * sleep for 1 second
+	 * get system time after sleep
+	 * calculate difference of system time in seconds
+	 */
+	systimestart = (double) bcm2835_st_read();
+	sleep(1);
+	systimeend = (double) bcm2835_st_read();
+	elapsed_time = (systimeend - systimestart)/syshz;
+
+	printf("Sleep(1) elapsed time: %f seconds\n",elapsed_time);
+
+	/* Close the library deallocating any allocated memory */
+	bcm2835_close();
+	return EXIT_SUCCESS;
+}

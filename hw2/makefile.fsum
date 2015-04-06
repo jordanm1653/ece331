@@ -1,0 +1,11 @@
+#declare variables
+CC=gcc
+CFLAGS=-Wall -g
+SOURCES=fsum.c
+EXECUTABLE=fsum
+
+$(EXECUTABLE): $(SOURCES)
+	$(CC) $(CFLAGS) $^ -o $@
+
+clean:
+	$(RM) $(EXECUTABLE)
