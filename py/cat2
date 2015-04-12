@@ -1,0 +1,5 @@
+#!/usr/bin/python
+import sys
+import fileinput
+for l in fileinput.input():
+	print l,

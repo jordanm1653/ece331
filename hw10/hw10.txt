@@ -1,0 +1,20 @@
+===============================================================================
+Jordan Millington
+Homework 10
+ECE 331
+Due: 4/10/2015
+===============================================================================
+10.1
+--------------------
+$ sudo apt-get install libdbi-perl libdbd-sqlite3-perl
+
+10.2
+--------------------
+
+10.3
+--------------------
+
+P.S.
+--------------------
+Thank you for this opportunity to gain points. I wish I couldve taken greater
+advantage of it and done more but I had to study for a History exam
