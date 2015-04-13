@@ -9,25 +9,34 @@
 # AUTHOR: Jordan Millington
 
 import smbus
-import time
 bus = smbus.SMBus(1)	# 1 = /dev/i2c-1
 
+# i2c Address of xmega
 addr = 0x41
-reg = [0x0000,0x00ff]
 
-#for y in range(0,30):
-#	for x in range(0,50):
-#		data = bus.read_byte_data(addr,x)
-#		print data,
-#	print 
-#	time.sleep(1)
+# i2c temperature data dict
+temp_t = {
+	'roomcal':	0,
+	'hotcal':	0,
+	'adcal':	0,
+	'v':		0,
+	'room':		0,
+	'hot':		0,
+}
+	
+# Read 10 bytes from xmega
 try:
-	data = bus.read_block_data(addr,8)
-except:
+	data = bus.read_i2c_block_data(addr,0x00,10)
+except IOError:
 	print "unable to read from i2c bus"
-#print hex(data)
-#print dir(data)
-print dir(data)
-print type(data)
-print data.__sizeof__
-print data
+
+# Populate temp_t dict from i2c transmission
+temp_t['roomcal']	= (data[0] << 8) + data [1]
+temp_t['hotcal']	= (data[2] << 8) + data [3]
+temp_t['adcal']		= (data[4] << 8) + data [5]
+temp_t['v']			= (data[6] << 8) + data [7]
+temp_t['room']		=  data[8]
+temp_t['hot']		=  data[9]
+
+# Raw temperature reading for homework assignment
+print "Raw Temp: %d" % temp_t['v']
