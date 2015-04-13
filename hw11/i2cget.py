@@ -31,12 +31,12 @@ except IOError:
 	print "unable to read from i2c bus"
 
 # Populate temp_t dict from i2c transmission
-temp_t['roomcal']	= (data[0] << 8) + data [1]
-temp_t['hotcal']	= (data[2] << 8) + data [3]
-temp_t['adcal']		= (data[4] << 8) + data [5]
-temp_t['v']			= (data[6] << 8) + data [7]
-temp_t['room']		=  data[8]
-temp_t['hot']		=  data[9]
+temp_t['roomcal']	= (data[0] << 8) + data [1]		# uint16_t
+temp_t['hotcal']	= (data[2] << 8) + data [3]		# uint16_t
+temp_t['adcal']		= (data[4] << 8) + data [5]		# uint16_t
+temp_t['v']			= (data[6] << 8) + data [7]		# uint16_t
+temp_t['room']		=  data[8]		# uint8_t
+temp_t['hot']		=  data[9]		# uint8_t
 
 # Raw temperature reading for homework assignment
 print "Raw Temp: %d" % temp_t['v']
