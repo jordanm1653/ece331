@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
 
 	sprintf(filename,"/dev/i2c-1");
 
-	char val;
 	/*
 	 * Open device file
 	 */
