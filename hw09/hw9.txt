@@ -1,0 +1,190 @@
+===============================================================================
+Jordan Millington
+Homework 9
+ECE 331
+Due: 4/2/2015
+===============================================================================
+9.1
+--------------------
+Frodo Routing Table:
+  Destination   Gateway    Genmask       Flags   Metric   Ref   Use   Iface  
+ ------------- ---------- ------------- ------- -------- ----- ----- ------- 
+  default       18.6.7.8   0.0.0.0       UG      0        0     0     eth0   
+  18.0.0.0      *          255.248.0.0   U       0        0     0     eth0
+
+Elassar Routing Table:
+  Destination   Gateway      Genmask           Flags   Met   Ref   Use   Iface  
+ ------------- ------------ ----------------- ------- ----- ----- ----- ------- 
+  default       76.99.33.1   0.0.0.0           UG      0     0     0     eth1   
+  18.0.0.0      *            255.248.0.0       U       0     0     0     eth0   
+  141.33.33.0   *            255.255.255.192   U       0     0     0     eth2 
+
+9.2
+--------------------
+Frodo ---> Elessar
+  Path        Source MAC          Dest. MAC           Source IP   Dest. IP     
+ ----------- ------------------- ------------------- ----------- ------------- 
+  Frodo->                                                                      
+  Elessar     00:00:00:00:00:11   55:00:00:00:00:00   18.4.8.9    141.33.33.6  
+  Elessar->                                                                    
+  Legolas     66:00:00:00:00:00   00:00:00:00:00:22   18.4.8.9    141.33.33.6 
+
+9.3
+--------------------
+Legolas ---> Gandalf
+  Path         Source MAC          Dest. MAC           Source IP     Dest. IP    
+ ------------ ------------------- ------------------- ------------- ----------- 
+  Legolas->                                                                      
+  Elessar      00:00:00:00:00:22   66:00:00:00:00:00   141.33.33.6   76.99.33.1  
+  Elessar->                                                                      
+  Gandalf      77:00:00:00:00:00   FF:00:00:00:00:00   141.33.33.6   76.99.33.1
+
+9.4
+--------------------
+   Group         Net          Broadcast         Netmask      CIDR  
+ ---------- -------------- ---------------- --------------- ------ 
+  Hug        123.210.32.0   123.210.35.255   255.255.252.0   /22   
+             123.210.36.0   123.210.37.255   255.255.254.0   /23   
+                                                                   
+  E          123.210.38.0   123.210.39.255   255.255.254.0   /23   
+                                                                   
+  Blue Man   123.210.40.0   123.210.43.255   255.255.252.0   /22   
+                                                                   
+  Think      123.210.44.0   123.210.59.255   255.255.240.0   /20   
+             123.210.60.0   123.210.61.255   255.255.254.0   /23  
+
+I am not sure how to show my work for this problem without taking up a large
+amount of space. I broke the 123.210.32.0/19 nework into as many /23 newtworks
+I could and combined /23 networks where I could.
+
+ex. 123.210.32.0/22 => (2) /23 nets
+
+9.5
+--------------------
+A. courses.eece.maine.edu
+
+B.
+#!/usr/bin/perl
+# Fetch contents of a webpage using IO::Socket
+#
+# Jordan Millington
+# 03/31/15
+use strict;
+use warnings;
+use IO::Socket::INET;   # Object interface for AF_INET domain sockets
+
+my ($sock, $response);
+my $site = 'courses.eece.maine.edu';
+# Open Socket
+$sock = IO::Socket::INET->new(
+	PeerAddr => $site,
+	PeerPort => 'http(80)',
+	Proto => 'tcp');
+
+die "Unable to open socket $!\n" unless $sock;
+# Send "GET" command
+print $sock "GET /\n\r";
+# Print response from GET
+while($response=<$sock>){
+	print "$response\n";
+}
+close $sock;
+
+9.6
+--------------------
+$ sudo apt-get update
+$ sudo apt-get install lighttpd php5-cgi sqlite3 sqlitebrowser php5-cli php5-gd
+$ lightly-enable-mod fastcgi
+$ lightly-enable-mod fastcgi-php
+$ sudo service lighttpd force-reload
+$ cd /etc/lighttpd/conf-enabled
+$ ln -s ./conf-available/15-fastcgi-php.conf
+$ ln -s ./conf-available/10-fastcgi-php.conf
+$ sudo service lighttpd force-reload
+
+9.7
+--------------------
+/*
+ * getmac.c
+ *
+ * Retruns the MAC address of the ethernet network interface
+ *
+ * Jordan Millington
+ */
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+#include<unistd.h>
+#include<string.h>
+#include<sys/types.h>			//for socket
+#include<sys/socket.h>			//for socket
+#include<sys/ioctl.h>
+#include<net/if.h>
+#include<netinet/in.h>			//for IPPROTO_IP
+
+int main(int argc, char *argv[])
+{
+	struct ifreq ifr;
+	int sfd = 0;
+	char *iface= "eth0";
+	unsigned char mac[6] = {0};
+
+	if (argc != 1){
+		printf("Usage:\t%s\n",argv[0]);
+		printf("This program does not take any arguments\n");
+		exit(EXIT_FAILURE);
+	}
+	/* Create socket with the following parameters:
+	 *	domain: IPv4
+	 *	type: Datagram
+	 *	protocol: IPPROTO_IP
+	 */
+	sfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
+	if (sfd < 0){
+		perror("socket");
+		// No reason to continue
+		exit(EXIT_FAILURE);
+	}
+
+	// set device type sa_family defined in sockaddr
+	ifr.ifr_addr.sa_family = AF_INET;
+	strcpy(ifr.ifr_name, iface);
+
+	if (ioctl(sfd, SIOCGIFHWADDR, &ifr) < 0){
+		perror("ioctl");
+		close(sfd);
+		// No reason to continue
+		exit(EXIT_FAILURE);
+	}
+
+	close(sfd);
+
+	//copy mac address from ioctl
+	memcpy(mac, ifr.ifr_hwaddr.sa_data, 6);
+
+	printf("%.2x:%.2x:%.2x:%.2x:%.2x:%.2x\n",
+	       mac[0],mac[1],mac[2],mac[3],mac[4],mac[5]);
+
+	return EXIT_SUCCESS;
+}
+
+9.8
+--------------------
+#!/usr/bin/perl
+# mac2bin.pl
+#
+# Read a mac address from stdin and convert it to a decimal value
+#
+# Jordan Millington
+#
+use strict;
+use warnings;
+use bignum;
+
+# output from program getmac piped into script
+my $mac = <STDIN>;
+$mac =~ tr/://d;
+# Hex to decimal
+my $dec = hex($mac);
+printf "$dec\n";
