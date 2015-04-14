@@ -3,7 +3,7 @@
 # bode.py
 #
 # Create a Bode plot of transfer funtion:
-#									H(s) = 8000s/(s^2+5000s+10^6
+#	H(s) = 8000s/(s^2+5000s+10^6
 # 	where: s = jw from 10 to 10k rad/s
 # 
 # PACKAGES:
