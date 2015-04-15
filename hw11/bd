@@ -1,0 +1,34 @@
+#!/usr/bin/python
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# bode.py
+#
+# Create a Bode plot of transfer funtion:
+
+#	H(s) = 8000s/(s^2+5000s+10^6
+# 	where: s = jw from 10 to 10k rad/s
+# 
+# PACKAGES:
+#	apt-get install python-scypi
+#	apt-get install python-matplotlib
+#	apt-get install python-tk
+#
+# AUTHOR: Jordan Millington
+
+import numpy as np
+from scipy import signal
+import matplotlib.pyplot as plt
+
+w = np.logspace(-1,2)
+jw = 1j*w
+n = np.array([1])
+d = np.array([1,-2])
+#ns = jw * np.roots(n)
+ns = np.roots(n)
+print ns
+#ds = jw * np.roots(d)
+#n = 1
+#d = np.square(jw) - 2
+#mag = np.log(n) - np.log(d)
+#mag = np.log(ns) - np.log(ds)
+#plt.semilogx(w,mag)
+#plt.show()
