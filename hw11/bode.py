@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 #
 # Transfer function as LTI
 #
-sig = signal.lti([8000],[1, 5000, 10^6])
+sig = signal.lti([8000, 0],[1, 5000, 10^6])
 
 #
 # Frequency range & Bode magnitude
