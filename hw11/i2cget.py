@@ -38,4 +38,4 @@ buff= struct.unpack('<HHHHBB', struct.pack('BBBBBBBBBB', *data))
 keys = ['roomcal','hotcal','adcal','v','room','hot']
 temp_t = dict(zip(keys, buff))
 
-print temp_t['v']
+print 'Raw Temperature Measurement: %d' % temp_t['v']
