@@ -1,0 +1,50 @@
+     1	17:58	sudo mkdir /shared2
+     2	17:58	l
+     3	17:58	cd /
+     4	17:58	ls
+     5	18:02	sudo /etc/init.d/nfs-kernel-server restart
+     6	18:02	mkdir /mnt/shared
+     7	18:02	sudo mkdir /mnt/shared
+     8	18:03	mount 10.255.69.31:/shared /mnt/shared
+     9	18:03	sudo mount 10.255.69.31:/shared /mnt/shared
+    10	18:07	sudo /etc/init.d/nfs-kernel-server restart
+    11	18:10	sudo server rpcbind start
+    12	18:10	sudo service rpcbind start
+    13	18:11	sudo /etc/init.d/nfs-kernel-server restart
+    14	18:11	mount 10.255.69.31:/shared /mnt/shared
+    15	18:11	sudo mount 10.255.69.31:/shared /mnt/shared
+    16	18:11	cd /mnt
+    17	18:11	l
+    18	18:12	cd /
+    19	18:12	ll
+    20	18:15	sudo mount 10.255.69.31:/shared /mnt/shared/
+    21	18:15	cd /mnt/shared
+    22	18:15	l
+    23	18:15	touch test
+    24	18:15	cd
+    25	18:15	cd /
+    26	18:15	chmod 777 shared2
+    27	18:15	sudo chmod 777 shared2
+    28	18:15	ls shared2
+    29	18:18	touch test2
+    30	18:18	touch test2
+    31	18:18	touch test2
+    32	18:18	touch test2
+    33	18:18	cd /mnt/shared
+    34	18:18	touch test2
+    35	18:20	history >> ~/nfssetup
+     1	17:48	uname -r
+     2	17:49	grep NSFD /boot/config-3.18.9+
+     3	17:49	ls /boot
+     4	17:50	grep NSFD /usr/src/linux/config-3.18.9+
+     5	17:50	grep NSFD /usr/src/linux-3.18.9+
+     6	17:50	grep NSFD /usr/src/linux-3.18.9+/.config
+     7	17:50	grep -re NSFD /usr/src/linux-3.18.9+/.config
+     8	17:50	alias grep grep
+     9	17:50	grep NSFD /usr/src/linux-3.18.9+/.config
+    10	17:51	cd /usr/src/linux-3.18.9+
+    11	17:51	grep NFSD /usr/src/linux-3.18.9/.config
+    12	17:52	sudo apt-get install nfs-kernel-server portmap nfs-common
+    13	17:54	uname -r
+    14	17:55	sudo vi /etc/exports
+    15	18:20	history >> ~/nfssetup

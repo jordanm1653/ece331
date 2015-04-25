@@ -1,0 +1,34 @@
+===============================================================================
+Jordan Millington
+Homework 12
+ECE 331
+Due: 4/23/2015
+===============================================================================
+12.1
+--------------------
+5,55 23 1-31/2 * * root /usr/bin/xkcd
+
+12.2
+--------------------
+See report done by Jake Daly-O'Donnell and myself (Jordan Millington)
+
+12.3
+--------------------
+Teammate: Jake Daly-O'Donnell
+Commands
+~~~~~~~~~~
+Install packages
+	cd /usr/src/linux-3.18.9+
+	grep NFSD /usr/src/linux-3.18.9/.config
+	sudo apt-get install nfs-kernel-server portmap nfs-common
+Setup Directory for export
+	sudo echo "/shared2 10.255.69.31(rw,secure,async)" >> /etc/exports
+	sudo mkdir /shared2
+	sudo chmod 766 /shared2
+	sudo /etc/init.d/nfs-kernel-server restart
+	sudo service rpcbind start
+Mount External Directory
+	sudo mkdir /mnt/shared
+	sudo mount 10.255.69.31:/shared /mnt/shared
+Create file called "test" in external directory
+	touch /mnt/shared/test
