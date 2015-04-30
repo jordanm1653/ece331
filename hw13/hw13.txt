@@ -1,0 +1,73 @@
+===============================================================================
+Jordan Millington
+Homework 13
+ECE 331
+Due: 4/30/2015
+===============================================================================
+13.1
+--------------------
+> sqlite3 passwd.db
+sqlite> .seperator ':'
+sqlite> CREATE TABLE users(username text 20, pass text 8, uid int, gid int,
+	gecos blob, dir blob, shell blob)
+sqlite> .import /etc/passwd
+
+13.2
+--------------------
+Every Thursday in April and on April 25th, run log_temp every 6th minute
+in the first half hour after midnight and again at 12 noon.
+
+13.3
+--------------------
+a.
+	At the kernel level, multiple proccesses may attempt to access the same
+	file in and/or memory location at the same time. This can lead to a 
+	race condition which can result in data being overwritten. Such data must
+	be "locked" by the process accessing it to prevent other processes from
+	overwriting said data.
+b.
+	Mutex locking is the best choice for a locking mechanism because it
+	offers the most flexibility for systems with different processing 
+	architectures.
+	
+13.4
+--------------------
+13.5
+--------------------
+  Network     Gateway   Genmask         Interface  
+ ----------- --------- --------------- ----------- 
+  0.0.0.0     9.8.7.5   0.0.0.0         eth1       
+  1.2.3.0     0.0.0.0   255.255.255.0   eth0       
+  10.0.0.0    0.0.0.0   255.0.0.0.0     eth2       
+  9.8.0.0     0.0.0.0   255.255.0.0     eth1       
+  127.0.0.0   0.0.0.0   255.255.255.0   lo 
+
+13.6
+--------------------
+13.7
+--------------------
+/home 45.32.0.0/30(ro,sync,squash_all)
+
+13.8
+--------------------
+	for ($x = 0; $x < $h; $x++){
+		print "<tr>";
+		for ($y = 0; $y < $w; $y++){
+			print"<td></td>";
+		}
+		print "</tr>";
+	}
+	
+13.9
+--------------------
+import numpy as np
+import math
+
+t = np.linspace(0,0.05,500)
+v = math.cos(100*t)
+
+13.10
+--------------------
+13.11
+--------------------
+To read about linux and do my homework
